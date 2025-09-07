@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enviar Pregunta</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-image: url(preguntas.gif);
+    
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  .container {
+    background-image: url(preguntas.gif);
+    background: rgba(45, 44, 49, 0.8);
+    padding: 30px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 550px;
+    text-align: center;
+  }
+  h1 { margin-bottom: 20px; }
+  input, textarea, button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: none;
+  }
+  button.submit-btn {
+    background: #00bcd4;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  button.submit-btn:hover { background: #0097a7; }
+  label { display: block; margin-top: 15px; text-align: left; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Enviar Pregunta</h1>
+
+  <form id="questionForm">
+    <!-- Nombre Kick opcional -->
+    <label for="kickName">Nombre de Kick (opcional)</label>
+    <input type="text" name="entry.1297379162" id="kickName" placeholder="Tu nombre de Kick">
+
+    <!-- Categoría obligatoria -->
+    <label for="categoria">Categoría (obligatoria)</label>
+    <input type="text" name="entry.807402965" id="categoria" placeholder="Escribe la categoría" required>
+
+    <!-- Dificultad obligatoria -->
+    <label for="dificultad">Dificultad (obligatoria)</label>
+    <input type="text" name="entry.1051515706" id="dificultad" placeholder="Escribe Fácil, Medio o Difícil" required>
+
+    <!-- Pregunta y respuesta obligatoria -->
+    <label for="pregunta">Pregunta</label>
+    <input type="text" name="entry.1204029206" id="pregunta" required>
+
+    <label for="respuesta">Respuesta</label>
+    <textarea name="entry.1420769593" id="respuesta" rows="3" required></textarea>
+
+    <button type="submit" class="submit-btn">Enviar Pregunta</button>
+  </form>
+</div>
+
+<script>
+  const form = document.getElementById('questionForm');
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault(); // evita envío normal
+
+    // Validación
+    if(!document.getElementById('categoria').value.trim()){
+      alert('Escribe la categoría.');
+      return;
+    }
+    if(!document.getElementById('dificultad').value.trim()){
+      alert('Escribe la dificultad.');
+      return;
+    }
+    if(!document.getElementById('pregunta').value.trim()){
+      alert('Escribe la pregunta.');
+      return;
+    }
+    if(!document.getElementById('respuesta').value.trim()){
+      alert('Escribe la respuesta.');
+      return;
+    }
+
+    // Crear FormData y enviar con fetch
+    const data = new FormData(form);
+    fetch('https://docs.google.com/forms/d/e/1FAIpQLSfojQWiLlLQzkcd2nzW_4wH7GAPfyiXH_REqU7W-CYOV1gUKw/formResponse', {
+      method: 'POST',
+      body: data,
+      mode: 'no-cors'
+    }).then(() => {
+      alert('¡Pregunta enviada! Gracias por tu aporte.');
+      form.reset();
+    }).catch(() => {
+      alert('Ocurrió un error al enviar la pregunta.');
+    });
+  });
+</script>
+
+</body>
+</html>
